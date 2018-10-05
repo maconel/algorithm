@@ -1,11 +1,15 @@
-target: main.o linkedlist.o
-	gcc -lstdc++ -o main main.o linkedlist.o
-
-main.o: main.cpp
-	gcc -c -o main.o main.cpp
-
-linkedlist.o: linkedlist.cpp
-	gcc -c -o linkedlist.o linkedlist.cpp
-
+CC=g++
+TARGET=main
+SRC=$(shell echo *.cpp)
+OBJ=$(SRC:$.cpp=$.o)
+CFLAGS= -std=c++11
+.PHONY:clean
+debug:
+	$(CC) -g -c $(SRC) $(CFLAGS)
+	$(CC) -o $(TARGET) $(OBJ)
+release:
+	$(CC) -c $(SRC) $(CFLAGS)
+	$(CC) -o $(TARGET) $(OBJ)
+	make clean
 clean:
-	rm -f main *.o
+	rm -fr *.o $(TARGET)
