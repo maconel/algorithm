@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 
 void deleteFromLast(Node* head, int n) {
     Node* it = head;
-    for (int i = 0; i < n+2 && it->next != NULL; ++i) {
+    for (int i = 0; i < n+1 && it->next != NULL; ++i) {
         it = it->next;
     }
 

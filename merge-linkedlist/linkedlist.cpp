@@ -11,16 +11,12 @@ Node* makeNode(char data, Node* next) {
 
 Node* makeLinkedList(char* datas) {
     Node* tail = makeNode('\0', NULL);
-    Node* head = makeNode('\0', tail);
+    Node* head = makeNode(*datas, tail);
 
     Node* it = head;
-    for (char* p=datas; *p; ++p) {
-        Node* node = makeNode('\0', tail);
-
-        it->data = *p;
-        it->next = node;
-
-        it = node;
+    for (char* p=datas+1; *p; ++p) {
+        it->next = makeNode(*p, tail);
+        it = it->next;
     }
 
     return head;

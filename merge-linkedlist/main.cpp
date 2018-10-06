@@ -32,16 +32,33 @@ Node* merge(Node* a, Node* b) {
 
 Node* min(Node** a, Node** b) {
     Node* m = NULL;
+
+    if ((*b)->next == NULL) {
+        m = *a;
+        *a = (*a)->next;
+        return m;
+    }
+
+    if ((*a)->next == NULL) {
+        m = *b;
+        *b = (*b)->next;
+        return m;
+    }
+
     if ((*a)->data < (*b)->data) {
         m = *a;
         *a = (*a)->next;
-    } else if ((*a)->data > (*b)->data) {
+        return m;
+    }
+
+    if ((*a)->data > (*b)->data) {
         m = *b;
         *b = (*b)->next;
-    } else {
-        m = *a;
-        *a = (*a)->next;
-        *b = (*b)->next;
+        return m;
     }
+
+    m = *a;
+    *a = (*a)->next;
+    *b = (*b)->next;
     return m;
 }
