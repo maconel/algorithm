@@ -3,8 +3,6 @@
 #include <stdio.h>
 
 void makeCircle(Node* head);
-Node* findTail(Node* head);
-Node* step(Node* it, int stepCount);
 bool hasCircle(Node* head);
 Node* findCircle(Node* head);
 
@@ -34,22 +32,6 @@ int main(int argc, char* argv[]) {
 void makeCircle(Node* tailPointTo) {
     Node* tail = findTail(tailPointTo);
     tail->next = tailPointTo;
-}
-
-Node* findTail(Node* head) {
-    Node* tail = head;
-    for (; tail->next != NULL; tail = tail->next) {
-    }
-    return tail;
-}
-
-Node* step(Node* it, int stepCount) {
-    for (int i=0; i<stepCount; ++i) {
-        it = it->next;
-        if (it->next == NULL)
-            break;
-    }
-    return it;
 }
 
 bool hasCircle(Node* head) {

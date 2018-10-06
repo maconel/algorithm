@@ -32,3 +32,19 @@ void printLinkedList(Node* head) {
     }
     printf("\n");
 }
+
+Node* findTail(Node* head) {
+    Node* tail = head;
+    for (; tail->next != NULL; tail = tail->next) {
+    }
+    return tail;
+}
+
+Node* step(Node* it, int stepCount) {
+    for (int i=0; i<stepCount; ++i) {
+        it = it->next;
+        if (it->next == NULL)
+            break;
+    }
+    return it;
+}
