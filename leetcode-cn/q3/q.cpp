@@ -12,17 +12,15 @@ public:
         memset(c2i, 0xff, sizeof(c2i));
         
         int len = s.length();
-        int currRepeatPos = 0;
         for (int i=0; i<len; ++i) {
             if (maxlen > len-i)
                 break;
-            int j = i > currRepeatPos ? i : currRepeatPos;
+            int j = i;
             int begin = i;
             for (; j<len; ++j) {
-                int prevRepeatPos = checkRepeat(s, begin, j);
+                int prevRepeatPos = checkRepeat(s, j);
                 if (prevRepeatPos >= 0) {
                     i = prevRepeatPos;
-                    currRepeatPos = j + 1;
                     break;
                 }
             }
@@ -33,20 +31,11 @@ public:
         return maxlen;
     }
     
-    int checkRepeat(const string& s, int begin, int curr) {
+    int checkRepeat(const string& s, int curr) {
         char c = s[curr];
         if (c2i[c] >= 0) {
             int prevRepeatPos = c2i[c];
-            c2i[c] = curr;
-            /*
-            for (int i=0; i<256; ++i) {
-                if (c2i[i] < prevRepeatPos)
-                    c2i[i] = -1;
-            }
-            */
-            for (int i=begin; i<prevRepeatPos; ++i) {
-                c2i[s[i]] = -1;
-            }
+            memset(c2i, 0xff, sizeof(c2i));
             return prevRepeatPos;
         }
         c2i[c] = curr;
