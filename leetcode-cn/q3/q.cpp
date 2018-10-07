@@ -2,45 +2,38 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <string>
+#include <iostream>
 
 using namespace std;
+
+static const auto _____ = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    return nullptr;
+}();
 
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int maxlen = 0;
+        int c2i[256];
         memset(c2i, 0xff, sizeof(c2i));
         
         int len = s.length();
-        for (int i=0; i<len; ++i) {
-            if (maxlen > len-i)
-                break;
-            int j = i;
-            int begin = i;
-            for (; j<len; ++j) {
-                int prevRepeatPos = checkRepeat(s, j);
-                if (prevRepeatPos >= 0) {
-                    i = prevRepeatPos;
-                    break;
-                }
+        int begin = 0;
+        int i = 0;
+        for (; i<len; ++i) {
+            char c = s[i];
+            if (c2i[c] >= begin) {
+                maxlen = max(maxlen, i - begin);
+                begin = c2i[c] + 1;
             }
-            int uniqueLen = j-begin;
-            maxlen = maxlen > uniqueLen ? maxlen : uniqueLen;
+            c2i[c] = i;
+        }
+        if (i == len) {
+            maxlen = max(maxlen, i - begin);
         }
         
         return maxlen;
     }
-    
-    int checkRepeat(const string& s, int curr) {
-        char c = s[curr];
-        if (c2i[c] >= 0) {
-            int prevRepeatPos = c2i[c];
-            memset(c2i, 0xff, sizeof(c2i));
-            return prevRepeatPos;
-        }
-        c2i[c] = curr;
-        return -1;
-    }
-private:
-    int c2i[256];
 };
