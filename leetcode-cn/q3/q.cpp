@@ -33,7 +33,7 @@ public:
         return maxlen;
     }
     
-    int checkRepeat(string s, int begin, int curr) {
+    int checkRepeat(const string& s, int begin, int curr) {
         char c = s[curr];
         if (c2i[c] >= 0) {
             int prevRepeatPos = c2i[c];
