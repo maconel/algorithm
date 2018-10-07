@@ -16,26 +16,30 @@ public:
             if (maxlen > len-i)
                 break;
             int j = i;
+            int begin = i;
             for (; j<len; ++j) {
-                if (checkRepeat(s[j])) {
+                int lastpos = checkRepeat(s[j], j);
+                if (lastpos >= 0) {
+                    i = lastpos;
                     break;
                 }
             }
-            int uniqueLen = j-i;
+            int uniqueLen = j-begin;
             maxlen = maxlen > uniqueLen ? maxlen : uniqueLen;
         }
         
         return maxlen;
     }
     
-    bool checkRepeat(char c) {
+    int checkRepeat(char c, int pos) {
         if (m[c]) {
+            int lastpos = m[c] - 1;
             memset(m, 0, sizeof(m));
-            return true;
+            return lastpos;
         }
-        m[c] = 1;
-        return false;
+        m[c] = pos + 1;
+        return -1;
     }
 private:
-    char m[256];
+    int m[256];
 };
