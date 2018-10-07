@@ -9,7 +9,7 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int maxlen = 0;
-        memset(m, 0, sizeof(m));
+        memset(c2i, 0xff, sizeof(c2i));
         
         int len = s.length();
         int currRepeatPos = 0;
@@ -19,7 +19,7 @@ public:
             int j = i > currRepeatPos ? i : currRepeatPos;
             int begin = i;
             for (; j<len; ++j) {
-                int prevRepeatPos = checkRepeat(s[j], j);
+                int prevRepeatPos = checkRepeat(s, begin, j);
                 if (prevRepeatPos >= 0) {
                     i = prevRepeatPos;
                     currRepeatPos = j + 1;
@@ -33,20 +33,25 @@ public:
         return maxlen;
     }
     
-    int checkRepeat(char c, int pos) {
-        if (m[c]) {
-            int lastpos = m[c] - 1;
-            m[c] = pos + 1;
-            //memset(m, 0, sizeof(m));
+    int checkRepeat(string s, int begin, int curr) {
+        char c = s[curr];
+        if (c2i[c] >= 0) {
+            int prevRepeatPos = c2i[c];
+            c2i[c] = curr;
+            /*
             for (int i=0; i<256; ++i) {
-                if (m[i] < lastpos + 1)
-                    m[i] = 0;
+                if (c2i[i] < prevRepeatPos)
+                    c2i[i] = -1;
             }
-            return lastpos;
+            */
+            for (int i=begin; i<prevRepeatPos; ++i) {
+                c2i[s[i]] = -1;
+            }
+            return prevRepeatPos;
         }
-        m[c] = pos + 1;
+        c2i[c] = curr;
         return -1;
     }
 private:
-    int m[256];
+    int c2i[256];
 };

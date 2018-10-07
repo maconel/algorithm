@@ -18,5 +18,6 @@ int main(int argc, char* argv[]) {
     check(1, s.lengthOfLongestSubstring(" "));
     check(2, s.lengthOfLongestSubstring("cdd"));
     check(1, s.lengthOfLongestSubstring("bbbbb"));
+    check(2, s.lengthOfLongestSubstring("abba"));
     return 0;
 }
