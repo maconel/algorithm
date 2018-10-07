@@ -12,15 +12,17 @@ public:
         memset(m, 0, sizeof(m));
         
         int len = s.length();
+        int currRepeatPos = 0;
         for (int i=0; i<len; ++i) {
             if (maxlen > len-i)
                 break;
-            int j = i;
+            int j = i > currRepeatPos ? i : currRepeatPos;
             int begin = i;
             for (; j<len; ++j) {
-                int lastpos = checkRepeat(s[j], j);
-                if (lastpos >= 0) {
-                    i = lastpos;
+                int prevRepeatPos = checkRepeat(s[j], j);
+                if (prevRepeatPos >= 0) {
+                    i = prevRepeatPos;
+                    currRepeatPos = j + 1;
                     break;
                 }
             }
@@ -34,7 +36,12 @@ public:
     int checkRepeat(char c, int pos) {
         if (m[c]) {
             int lastpos = m[c] - 1;
-            memset(m, 0, sizeof(m));
+            m[c] = pos + 1;
+            //memset(m, 0, sizeof(m));
+            for (int i=0; i<256; ++i) {
+                if (m[i] < lastpos + 1)
+                    m[i] = 0;
+            }
             return lastpos;
         }
         m[c] = pos + 1;
